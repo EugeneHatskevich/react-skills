@@ -1,25 +1,19 @@
-import logo from './logo.svg';
-import './App.css';
+import {HeaderContainer} from "./components/Header/HeaderContainer";
+import {HomeContainer} from "./components/Home/HomeContainer";
+import {Route, Switch, Redirect} from 'react-router-dom'
+import CoinPageContainer from "./components/CoinPage/CoinPageContainer";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <div>
+            <HeaderContainer/>
+            <Switch>
+                <Route path='/' render={() => <HomeContainer />} exact/>
+                <Route path='/view/:coinId?' render={() => <CoinPageContainer />} exact/>
+                <Redirect to='/'/>
+            </Switch>
+        </div>
+    );
 }
 
 export default App;

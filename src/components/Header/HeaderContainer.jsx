@@ -1,18 +1,19 @@
-import React, {useEffect} from 'react'
-import {Header} from "./Header";
-import {connect} from "react-redux";
-import {getTopCoin} from "../../redux/header-reducer";
+import React from 'react'
+import {Header} from "./Header"
+import {connect} from "react-redux"
+import {getTopCoin} from "../../redux/header-reducer"
+import {setPortfolio, updatePortfolioValue} from "../../redux/portfolio-reducer"
 
 const HeaderContainer = (props) => {
 
-    useEffect(() => {
-        props.getTopCoin()
-    },[])
+    // useEffect(() => {
+    //     props.getTopCoin()
+    // },[])
 
     return (
-        <div>
+        <header>
             <Header {...props}/>
-        </div>
+        </header>
     )
 }
 const mapStateToProps = (state) => {
@@ -22,5 +23,7 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps, {
-    getTopCoin
+    getTopCoin,
+    setPortfolio,
+    updatePortfolioValue
 })(HeaderContainer)

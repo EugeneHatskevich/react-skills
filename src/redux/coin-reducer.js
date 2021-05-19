@@ -1,25 +1,22 @@
 import {coinAPI} from "../api/coin.api";
 
-const SET_COIN_LIST = 'SET_COIN_LIST'
 const SET_HISTORY = 'SET_HISTORY'
-
+const SET_INFO = 'SET_INFO'
 
 let initialState = {
-    coinList: [],
-    pageSize: 10,
-    pageCount: 1,
-    history: []
+    historyData: [],
+    infoData: {}
 }
 
 export const coinReducer = (state = initialState, action) => {
     switch (action.type) {
-        case SET_COIN_LIST: {
+        case SET_HISTORY: {
             return {
                 ...state,
-                coinList: [...action.data]
+                historyData: [...action.historyData]
             }
         }
-        case SET_HISTORY: {
+        case SET_INFO: {
             return {
                 ...state,
             }
@@ -29,32 +26,26 @@ export const coinReducer = (state = initialState, action) => {
     }
 }
 
-const setCoinList = (data) => {
-    return {
-        type: SET_COIN_LIST,
-        data
-    }
-}
-const setHistory = (history) => {
+const setHistory = (historyData) => {
     return {
         type: SET_HISTORY,
-        history
+        historyData
+    }
+}
+const setInfo = (infoData) => {
+    return {
+        type: SET_INFO,
+        infoData
     }
 }
 
-export const getCoinsList = (currentPage, pageSize) => {
+export const getInfoAndHistory = (id, interval) => {
     return (dispatch) => {
-        coinAPI.getCoinList(currentPage, pageSize).then(response => {
-            console.log(response.data)
-            dispatch(setCoinList(response.data))
-        })
-    }
-}
-export const getHistory = (name, interval) => {
-    return (dispatch) => {
-        coinAPI.getHistory(name, interval).then(response => {
-            console.log(response.data)
+        coinAPI.getHistory(id, interval).then(response => {
             dispatch(setHistory(response.data))
+            coinAPI.getInfo(id).then(response => {
+                dispatch(setInfo(response.data))
+            })
         })
     }
 }

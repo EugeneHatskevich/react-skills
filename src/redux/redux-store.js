@@ -1,12 +1,16 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
-import {coinReducer} from "./coin-reducer";
+import {homeReducer} from "./home-reducer";
 import {headerReducer} from "./header-reducer";
 import thunk from 'redux-thunk'
+import {portfolioReducer} from "./portfolio-reducer";
+import {coinReducer} from "./coin-reducer";
 
 
 let reducers = combineReducers({
-    coinInfo: coinReducer,
+    home: homeReducer,
     header: headerReducer,
+    portfolio: portfolioReducer,
+    coinInfo: coinReducer
 })
 
 

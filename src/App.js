@@ -1,7 +1,7 @@
-import HeaderContainer from "./components/Header/HeaderContainer";
-import HomeContainer from "./components/Home/HomeContainer";
+import HeaderContainer from "./components/Header/HeaderContainer"
+import HomeContainer from "./components/Home/HomeContainer"
 import {Route, Switch, Redirect} from 'react-router-dom'
-import CoinPageContainer from "./components/CoinPage/CoinPageContainer";
+import CoinPageContainer from "./components/CoinPage/CoinPageContainer"
 
 function App() {
     return (

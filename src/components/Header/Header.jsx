@@ -1,28 +1,28 @@
 import React from 'react'
-import {NavLink} from "react-router-dom";
-import {InfoModal} from "../ModalComponents/InfoModal";
+import {InfoModal} from "../ModalComponents/InfoModal"
+import style from './Header.module.css'
 
 export const Header = (props) => {
     return (
-        <div>
-            <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                <div className="container-fluid">
-                    <NavLink className="navbar-brand" to="/">Home</NavLink>
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
-                            aria-label="Toggle navigation">
-                    </button>
-                    <div className="collapse navbar-collapse" id="navbarNav">
-                        <ul className="navbar-nav">
-                            <li className="nav-item">
-                                <InfoModal/>
-                            </li>
-                        </ul>
+        <nav className={`navbar navbar-expand-lg navbar-light ${style.navbar_color}`}>
+            <div className="container">
+                <div className="container col-9">
+                    <div className="row">
+                        <div className="col">1. Bitcoin - 4564464$</div>
+                        <div className="col">2. Ethereum - 4564$</div>
+                        <div className="col">3. Binance Coin - 456$</div>
                     </div>
-                        {props.topCoin.map(coin => {
-                            return <div>{`${coin.name}|change: ${Number(coin.changePercent24Hr).toFixed(2)}---`}</div>
-                        })}</div>
-            </nav>
-        </div>
+                </div>
+                <div className="col-4 container text-center">
+                    <div className="row">
+                        <div className="col-8 align-self-center">You portfolio: 134,32 USD +2,38 (1,80 %)</div>
+                        <div className="col-2">
+                            <button className="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">Info</button>
+                            <InfoModal/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
     )
 }

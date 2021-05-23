@@ -1,12 +1,10 @@
 import React from 'react'
-import {LineChart, CartesianGrid, Line, XAxis, YAxis, Tooltip} from "recharts"
-import {AddModal} from "../ModalComponents/AddModal"
+import {XAxis, YAxis, Tooltip, Area, AreaChart} from "recharts"
+import {AddModal} from "../ModalComponents/AddModal";
 
 export const CoinPage = (props) => {
 
-    const data = [{name: 'Time 1', value: 400},
-        {name: 'Time 2', value: 200},
-        {name: 'Time 3', value: 300},]
+    console.log(props.coinHistory)
 
     return (
         <div className="container">
@@ -19,23 +17,31 @@ export const CoinPage = (props) => {
                         Приобрести криптовалюту
                     </button>
                 </div>
-                <AddModal id={props.id}/>
+                <AddModal {...props} updatePortfolioValue={props.updatePortfolioValue}
+                          setPortfolio={props.setPortfolio}/>
             </div>
             <div className="row">
-                <div className="col-8"/>
-                <div className="col-4">Info</div>
-            </div>
-            <div className="row">
+                <div className="col-4"/>
                 <div className="col">
-                    <LineChart width={1000} height={400} data={data} margin={{top: 5, right: 20, bottom: 5, left: 0}}>
-                        <Line type="monotone" dataKey="value" stroke="#8884d8"/>
-                        <CartesianGrid stroke="#ccc" strokeDasharray="5 5"/>
-                        <XAxis dataKey="name"/>
-                        <YAxis/>
-                        <Tooltip/>
-                    </LineChart>
+                    <div className="col">График изменение цены за сутки</div>
                 </div>
             </div>
+                <AreaChart
+                    width={1000}
+                    height={500}
+                    data={props.coinHistory}
+                    margin={{
+                        top: 10,
+                        right: 30,
+                        left: 0,
+                        bottom: 0,
+                    }}
+                >
+                    <XAxis dataKey="date" scale="auto"/>
+                    <YAxis domain={['auto', "auto"]} minTickGap={5}/>
+                    <Tooltip/>
+                    <Area type="monotone" dataKey="priceUsd" stroke="#8884d8" fill="#8884d8"/>
+                </AreaChart>
         </div>
     )
 }

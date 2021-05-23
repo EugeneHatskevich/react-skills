@@ -26,7 +26,7 @@ export const setTopCoin = (topCoin) => {
     }
 }
 
-export const getTopCoin = (currentPage, pageSize) => {
+export const getTopCoin = () => {
     return (dispatch) => {
         coinAPI.getTopList().then(response => {
             console.log(response.data)

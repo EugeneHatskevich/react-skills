@@ -1,12 +1,20 @@
 import React from 'react'
 import {NavLink} from "react-router-dom"
 
-export const PortfolioTable = () => {
+export const PortfolioTable = (props) => {
 
-    const portfolioCoinList = [
-        {id: 1, name: "Bitcoin", value: 15, count: 1.52},
-        {id: 2, name: "Ethereum", value: 53, count: 11.5}
-    ]
+    const removeCoin = (index) => {
+        let previous = localStorage.getItem("current")
+        localStorage.setItem("previous", previous)
+        let current = Number(previous - props.portfolio[index].value).toFixed(2)
+        localStorage.setItem("current", current.toString())
+        props.updatePortfolioValue(current, previous)
+        const oldList = JSON.parse(localStorage.getItem("list"))
+        oldList.splice(index, 1)
+        console.log(oldList)
+        localStorage.setItem("list", JSON.stringify(oldList))
+        props.setPortfolio(oldList)
+    }
 
     return (
         <div className="container">
@@ -18,21 +26,22 @@ export const PortfolioTable = () => {
                         <th scope="col">№</th>
                         <th scope="col">Name</th>
                         <th scope="col">Count</th>
+                        <th scope="col">Price</th>
                         <th scope="col">Value</th>
                         <th scope="col">Remove</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {portfolioCoinList.map((coin) => {
+                    {props.portfolio.map((coin, index) => {
                         return (
-                            <tr>
-                                <th scope="row">{coin.id}</th>
+                            <tr key={index + 1}>
+                                <th scope="row">{index + 1}</th>
                                 <td><NavLink className="link-primary" to='/view/1'>{coin.name}</NavLink></td>
                                 <td>{coin.count}</td>
-                                <td>${Number(coin.value).toFixed(2)}</td>
+                                <td>{coin.price}</td>
+                                <td>{coin.value}</td>
                                 <td>
-                                    <button className="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                            data-bs-target={`#Modal${coin.id}`}>
+                                    <button className="btn btn-primary btn-sm" onClick={() => removeCoin(index)}>
                                         x
                                     </button>
                                 </td>

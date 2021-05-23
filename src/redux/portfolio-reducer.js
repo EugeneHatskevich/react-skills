@@ -3,13 +3,9 @@ const UPDATE_PORTFOLIO_VALUE = 'UPDATE_PORTFOLIO_VALUE'
 
 
 let initialState = {
-    portfolio: [
-        {id: 1},
-        {id: 2},
-        {id: 3}
-    ],
-    currentPortfolio: 0,
-    previousPortfolios: 0
+    portfolio: JSON.parse(localStorage.getItem("list")) ? JSON.parse(localStorage.getItem("list")) : [],
+    currentPortfolio: localStorage.getItem("current") ? localStorage.getItem("current") : 0,
+    previousPortfolio: localStorage.getItem("previous")
 }
 
 export const portfolioReducer = (state = initialState, action) => {
@@ -17,11 +13,14 @@ export const portfolioReducer = (state = initialState, action) => {
         case SET_PORTFOLIO: {
             return {
                 ...state,
+                portfolio: [...action.data]
             }
         }
         case UPDATE_PORTFOLIO_VALUE: {
             return {
                 ...state,
+                currentPortfolio: action.current,
+                previousPortfolio: action.previous
             }
         }
         default:
@@ -35,9 +34,10 @@ export const setPortfolio = (data) => {
         data
     }
 }
-export const updatePortfolioValue = (data) => {
+export const updatePortfolioValue = (current, previous) => {
     return {
         type: UPDATE_PORTFOLIO_VALUE,
-        data
+        current,
+        previous
     }
 }

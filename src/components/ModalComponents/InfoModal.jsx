@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import PortfolioTable from '../Home/PortfolioTable';
+import PortfolioTable from '../Header/PortfolioTable';
 
 const InfoModal = (props) => {
   const { portfolio, removeCoin } = props;

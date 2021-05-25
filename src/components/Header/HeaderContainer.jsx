@@ -3,25 +3,14 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from './Header';
 import { getTopCoin } from '../../redux/header-reducer';
-import { setPortfolio, updatePortfolioValue } from '../../redux/portfolio-reducer';
+import { removeCoin } from '../../redux/portfolio-reducer';
 
 const HeaderContainer = (props) => {
   const {
-    setPortfolio: setPortfolioFunc, getTopCoin: getTopCoinFunc,
-    updatePortfolioValue: updatePortfolioValueFunc, currentPortfolio,
-    previousPortfolio, portfolio, topCoin,
+    getTopCoin: getTopCoinFunc,
+    currentPortfolio,
+    previousPortfolio, portfolio, topCoin, removeCoin: removeCoinFunc,
   } = props;
-  const removeCoin = (index) => {
-    const previous = localStorage.getItem('current');
-    localStorage.setItem('previous', previous);
-    const current = +(previous - portfolio[index].value).toFixed(2);
-    localStorage.setItem('current', current.toString());
-    updatePortfolioValueFunc(current, previous);
-    const oldList = JSON.parse(localStorage.getItem('list'));
-    oldList.splice(index, 1);
-    localStorage.setItem('list', JSON.stringify(oldList));
-    setPortfolioFunc(oldList);
-  };
   useEffect(() => {
     getTopCoinFunc();
   }, [getTopCoinFunc]);
@@ -33,7 +22,7 @@ const HeaderContainer = (props) => {
         previousPortfolio={previousPortfolio}
         portfolio={portfolio}
         topCoin={topCoin}
-        removeCoin={removeCoin}
+        removeCoin={removeCoinFunc}
       />
     </header>
   );
@@ -47,8 +36,7 @@ const mapStateToProps = (state) => ({
 
 HeaderContainer.propTypes = {
   getTopCoin: PropTypes.func.isRequired,
-  setPortfolio: PropTypes.func.isRequired,
-  updatePortfolioValue: PropTypes.func.isRequired,
+  removeCoin: PropTypes.func.isRequired,
   topCoin: PropTypes.arrayOf(PropTypes.object).isRequired,
   currentPortfolio: PropTypes.string.isRequired,
   previousPortfolio: PropTypes.string.isRequired,
@@ -57,6 +45,5 @@ HeaderContainer.propTypes = {
 
 export default connect(mapStateToProps, {
   getTopCoin,
-  setPortfolio,
-  updatePortfolioValue,
+  removeCoin,
 })(HeaderContainer);

@@ -5,49 +5,15 @@ import Home from './Home';
 import {
   getCoinsList, setCurrentPage, setPagePortion, setPortion,
 } from '../../redux/home-reducer';
-import { setPortfolio, updatePortfolioValue } from '../../redux/portfolio-reducer';
+import { buyCoin } from '../../redux/portfolio-reducer';
 
 const HomeContainer = (props) => {
   const {
     setCurrentPage: setCurrentPageFunc, getCoinsList: getCoinsListFunc,
     setPortion: setPortionFunc, setPagePortion: setPagePortionFunc,
-    updatePortfolioValue: updatePortfolioValueFunc, setPortfolio: setPortfolioFunc,
+    buyCoin: buyCoinFunc,
     pagePortion, currentPage, pageSize, totalPageSize, coinList,
   } = props;
-  const buyCoin = (coinValue, priceUsd, name) => {
-    if (localStorage.getItem('current')) {
-      const previous = localStorage.getItem('current');
-      localStorage.setItem('previous', previous);
-      const current = +(coinValue * priceUsd) + +previous;
-      localStorage.setItem('current', current.toFixed(2).toString());
-      updatePortfolioValueFunc(current, previous);
-    } else {
-      localStorage.setItem('previous', '0');
-      const current = (coinValue * priceUsd);
-      localStorage.setItem('current', current.toFixed(2).toString());
-      updatePortfolioValueFunc(current, '0');
-    }
-    if (localStorage.getItem('list')) {
-      const oldList = JSON.parse(localStorage.getItem('list'));
-      const newList = [...oldList, {
-        title: name,
-        count: coinValue,
-        price: Number(priceUsd).toFixed(2),
-        value: (coinValue * priceUsd).toFixed(2),
-      }];
-      localStorage.setItem('list', JSON.stringify(newList));
-      setPortfolioFunc(newList);
-    } else {
-      const newList = [{
-        title: name,
-        count: coinValue,
-        price: Number(priceUsd).toFixed(2),
-        value: (coinValue * priceUsd).toFixed(2),
-      }];
-      localStorage.setItem('list', JSON.stringify(newList));
-      setPortfolioFunc(newList);
-    }
-  };
   useEffect(() => {
     getCoinsListFunc(currentPage, pageSize);
   }, [pageSize, currentPage, getCoinsListFunc]);
@@ -73,7 +39,7 @@ const HomeContainer = (props) => {
       pagePortion={pagePortion}
       onPageChange={onPageChange}
       pageSize={pageSize}
-      buyCoin={buyCoin}
+      buyCoin={buyCoinFunc}
       nextPortion={nextPortion}
       prevPortion={prevPortion}
     />
@@ -91,10 +57,9 @@ const mapStateToProps = (state) => ({
 HomeContainer.propTypes = {
   setCurrentPage: PropTypes.func.isRequired,
   getCoinsList: PropTypes.func.isRequired,
+  buyCoin: PropTypes.func.isRequired,
   setPortion: PropTypes.func.isRequired,
   setPagePortion: PropTypes.func.isRequired,
-  updatePortfolioValue: PropTypes.func.isRequired,
-  setPortfolio: PropTypes.func.isRequired,
   pagePortion: PropTypes.number.isRequired,
   totalPageSize: PropTypes.number.isRequired,
   currentPage: PropTypes.number.isRequired,
@@ -107,6 +72,5 @@ export default connect(mapStateToProps, {
   getCoinsList,
   setPortion,
   setPagePortion,
-  updatePortfolioValue,
-  setPortfolio,
+  buyCoin,
 })(HomeContainer);

@@ -29,7 +29,7 @@ const PortfolioTable = (props) => {
                 <td>{coin.price}</td>
                 <td>{coin.value}</td>
                 <td>
-                  <button type="button" className="btn btn-primary btn-sm" onClick={() => removeCoin(index)}>
+                  <button type="button" className="btn btn-primary btn-sm" onClick={() => removeCoin(portfolio, index)}>
                     x
                   </button>
                 </td>
